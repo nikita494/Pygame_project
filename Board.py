@@ -1,6 +1,7 @@
 import numpy as np
 import noise
 import random
+import pygame as pg
 
 
 class Board:
@@ -48,3 +49,31 @@ class Board:
                     self.board[i][j] = 1
                 else:
                     self.board[i][j] = 2
+
+
+if __name__ == '__main__':
+    SIZE = pg.FULLSCREEN
+    screen = pg.display.set_mode((0, 0), SIZE)
+    WiDTH, HEIGHT = screen.get_width(), screen.get_height()
+    # fps and clock
+    clock = pg.time.Clock()
+    fps = 60
+    # create Board
+    board = Board()
+    # cursor
+    sprite = pg.sprite.Sprite()
+    sprite.image = pg.image.load('images/arrow.png')
+    pg.mouse.set_visible(False)
+    # run
+    running = True
+    while running:
+        for event in pg.event.get():
+            if event.type == pg.QUIT:
+                running = False
+            if event.type == pg.MOUSEMOTION:
+                screen.fill(pg.Color('black'))
+                if event.pos[0] != 0 and event.pos[-1] != 0:
+                    screen.blit(sprite.image, event.pos)
+        clock.tick(fps)
+        pg.display.flip()
+    pg.quit()
